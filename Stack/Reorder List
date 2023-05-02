@@ -1,0 +1,37 @@
+class Solution {
+
+    public ListNode reverseList(ListNode head) {
+        ListNode curr = head, prev = null, temp = null;
+        while(curr != null) {
+            temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return prev;
+    }
+
+    public void reorderList(ListNode head) {
+        if(head == null || head.next == null) return;
+
+        ListNode fwd = head;
+        ListNode fast_fwd = head;
+        while(fast_fwd != null && fast_fwd.next != null) {
+            fast_fwd = fast_fwd.next.next;
+            fwd = fwd.next;
+        }
+
+        ListNode dummyPtr = reverseList(fwd);
+        ListNode curr = head;
+        ListNode curr_next = null;
+        ListNode temp = null;
+        while(curr.next != null && dummyPtr.next != null) {
+            curr_next = curr.next;
+            curr.next = dummyPtr;
+            temp = dummyPtr.next;
+            dummyPtr.next = curr_next;
+            curr = curr_next;
+            dummyPtr = temp;
+        }
+    }
+}
